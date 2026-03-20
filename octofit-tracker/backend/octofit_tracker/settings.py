@@ -34,8 +34,6 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 if CODESPACE_NAME:
     ALLOWED_HOSTS.append(f"{CODESPACE_NAME}-8000.app.github.dev")
     ALLOWED_HOSTS.append(CODESPACE_NAME)
-else:
-    ALLOWED_HOSTS.append('*')
 
 
 # Application definition

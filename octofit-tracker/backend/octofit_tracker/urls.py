@@ -20,10 +20,14 @@ import os
 
 def api_root(request):
     codespace_name = os.environ.get('CODESPACE_NAME', 'localhost')
-    api_url = f"https://{codespace_name}-8000.app.github.dev/api/" if codespace_name != 'localhost' else "http://localhost:8000/api/"
+    if codespace_name and codespace_name != 'localhost':
+        api_url = f"https://{codespace_name}-8000.app.github.dev/api/"
+    else:
+        api_url = "http://localhost:8000/api/"
     return JsonResponse({
         "message": "Welcome to the Octofit Tracker API root.",
-        "api_root": api_url
+        "api_root": api_url,
+        "example_activities_url": f"{api_url}activities/"
     })
 
 urlpatterns = [
