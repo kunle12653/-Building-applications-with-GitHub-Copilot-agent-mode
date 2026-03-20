@@ -26,12 +26,16 @@ SECRET_KEY = 'django-insecure-*z)(r$g!awsi*#+g^y4abtqqygf8pei-l+1#4rqdnq+@fsg0r9
 DEBUG = True
 
 
-# Allow all hosts for development
-ALLOWED_HOSTS = ['*']
 
+# Allow all hosts for development, but prefer explicit Codespace and localhost for security
 import os
-if os.environ.get('CODESPACE_NAME'):
-    ALLOWED_HOSTS.append(f"{os.environ.get('CODESPACE_NAME')}-8000.app.github.dev")
+CODESPACE_NAME = os.environ.get('CODESPACE_NAME')
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+if CODESPACE_NAME:
+    ALLOWED_HOSTS.append(f"{CODESPACE_NAME}-8000.app.github.dev")
+    ALLOWED_HOSTS.append(CODESPACE_NAME)
+else:
+    ALLOWED_HOSTS.append('*')
 
 
 # Application definition
