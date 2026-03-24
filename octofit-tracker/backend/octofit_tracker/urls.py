@@ -14,9 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.http import JsonResponse
+from rest_framework import routers
 import os
+from . import views
 
 def api_root(request):
     codespace_name = os.environ.get('CODESPACE_NAME', 'localhost')
@@ -30,7 +32,15 @@ def api_root(request):
         "example_activities_url": f"{api_url}activities/"
     })
 
+router = routers.DefaultRouter()
+router.register(r'users', views.UserViewSet)
+router.register(r'teams', views.TeamViewSet)
+router.register(r'activities', views.ActivityViewSet)
+router.register(r'leaderboard', views.LeaderboardViewSet)
+router.register(r'workouts', views.WorkoutViewSet)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', api_root),
+    path('api/', include(router.urls)),
+    path('', api_root),
 ]
